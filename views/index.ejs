@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <meta charset="utf-8" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/webrtc.io.js"></script>
+</head>
+<body>
+    <div id="address"></div>
+    <video id="local" autoplay></video>
+    <video id="remote" autoplay></video>
+    <script>
+        var address = document.getElementById('address');
+        var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+        var string_length = 8;
+        var room = '';
+
+        if (!location.search) {
+            for (var i = 0; i < string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                room += chars.substring(rnum, rnum + 1);
+            }
+        } else {
+            room = location.search.substr(1);
+        }
+
+        rtc.createStream({ video: true, audio: false }, function (stream) {
+            rtc.attachStream(stream, 'local');
+            if (!location.search) {
+                address.innerHTML = '別タブで<a target="_blank" href="http://' + location.host + '/?' + room + '">新しいページ</a>にアクセス';
+            }
+        }, function (e) {
+            address.textContent = "ビデオストリーム取得失敗";
+        });
+
+        rtc.connect('ws://localhost:8080', room);
+
+        rtc.on('add remote stream', function (stream, socketId) {
+            rtc.attachStream(stream, 'remote');
+        });
+
+        rtc.on('disconnect stream', function (socketId) {
+            // TODO
+        });
+
+    </script>
+</body>
+</html>
