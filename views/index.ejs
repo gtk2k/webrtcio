@@ -34,7 +34,8 @@
             address.textContent = "Error: Get video stream.";
         });
 
-        rtc.connect('ws://localhost:8080', room);
+        var host = location.origin.replace(/^http/, 'ws')
+        rtc.connect(host, room);
 
         rtc.on('add remote stream', function (stream, socketId) {
             rtc.attachStream(stream, 'remote');
