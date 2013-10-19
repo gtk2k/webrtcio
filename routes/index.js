@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'WebRTC.IOテスト' });
+  res.render('index', { title: 'WebRTC.IO test' });
 };

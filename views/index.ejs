@@ -28,10 +28,10 @@
         rtc.createStream({ video: true, audio: false }, function (stream) {
             rtc.attachStream(stream, 'local');
             if (!location.search) {
-                address.innerHTML = '別タブで<a target="_blank" href="http://' + location.host + '/?' + room + '">新しいページ</a>にアクセス';
+                address.innerHTML = '<a target="_blank" href="http://' + location.host + '/?' + room + '">new tab open</a>';
             }
         }, function (e) {
-            address.textContent = "ビデオストリーム取得失敗";
+            address.textContent = "Error: Get video stream.";
         });
 
         rtc.connect('ws://localhost:8080', room);
